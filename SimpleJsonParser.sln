@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleJsonParser", "SimpleJsonParser\SimpleJsonParser.csproj", "{980B5BA2-CFC0-4EDC-AC9A-ED16E80CD5E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleJsonParser", "SimpleJsonParser\SimpleJsonParser.csproj", "{980B5BA2-CFC0-4EDC-AC9A-ED16E80CD5E6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{55EC855E-CA14-4088-AD5A-46F6582B5253}"
 EndProject
