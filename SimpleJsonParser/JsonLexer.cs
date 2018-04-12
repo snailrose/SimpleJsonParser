@@ -1,6 +1,6 @@
 /*
 -------------------------------------------------------------------------------
-    This file is part of SimpleJSONParser.
+    This file is part of SimpleJsonParser.
 
     Copyright (c) Charles Carley.
 
@@ -29,9 +29,9 @@ namespace Json
 {
     public class JLex
     {
-        private string m_buffer;
-        private int m_cur;
-        private int m_len;
+        private string  m_buffer;
+        private int     m_cur;
+        private int     m_len;
 
         public JLex( string cur )
         {
@@ -54,15 +54,16 @@ namespace Json
             return 0;
         }
 
+
         public JToken Lex()
         {
-            while( !EOF() ) {
+            while( !EOF ) {
                 char c = m_buffer[m_cur];
                 if( c == '\n' || c == '\r' ) {
                     ++m_cur;
                     continue;
                 } else if( c == ' ' || c == '\t' ) {
-                    while( !EOF() ) {
+                    while( !EOF ) {
                         c = m_buffer[m_cur];
 
                         if ( c != ' ' && c != '\t' )
@@ -92,9 +93,8 @@ namespace Json
                     // some string decl
                     // [.] except ["|\] not including [\n\r\b\r\f\t]
                     c = m_buffer[++m_cur];
-
                     string val = "";
-                    while( !EOF() && c != '"' ) {
+                    while( !EOF && c != '"' ) {
                         val += c;
                         if( c == '\\' ) {
                             c = m_buffer[++m_cur];
@@ -126,7 +126,7 @@ namespace Json
                     while( IsNumeric( c ) || c == '.' || c == '-' ) {
                         val += c;
                         ++m_cur;
-                        if (EOF())
+                        if (EOF)
                             return new JToken(JTokenType.SyntaxError, "Undefined character" + c);
                         c = m_buffer[m_cur];
                     }
@@ -139,12 +139,10 @@ namespace Json
                     while( IsAlpha( c ) && i < 5 ) {
                         val += c;
                         i += 1;
-
                         ++m_cur;
-                        if (EOF())
+                        if (EOF)
                             return new JToken(JTokenType.SyntaxError, "Undefined character" + c);
                         c = m_buffer[m_cur];
-
                     }
                     if ( val != "true" && val != "false" &&  val != "null" )
                         return new JToken( JTokenType.SyntaxError, "expecting, true, falseor null" );
@@ -158,7 +156,7 @@ namespace Json
             return new JToken( JTokenType.EOF, "EOF" );
         }
 
-        bool EOF() { return m_len == 0 || m_cur >= m_len; }
+        bool EOF => m_len == 0 || m_cur >= m_len;
 
         public static bool IsAlpha( char c )    { return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z'; }
         public static bool IsNumeric( char c )  { return ( c >= '1' && c <= '9' ) || c == '0'; }

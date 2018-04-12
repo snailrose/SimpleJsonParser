@@ -1,6 +1,6 @@
 /*
 -------------------------------------------------------------------------------
-    This file is part of SimpleJSONParser.
+    This file is part of SimpleJsonParser.
 
     Copyright (c) Charles Carley.
 
@@ -40,6 +40,7 @@ namespace Json
         EOF
     }
 
+
     public class JToken
     {
         JTokenType m_type;
@@ -50,8 +51,7 @@ namespace Json
             m_type = type;
             m_value = value;
         }
-
-        public JTokenType Type  { get => m_type; }
-        public object Value     { get => m_value; }
+        public JTokenType Type => m_type;
+        public object Value    => m_value;
     }
 }

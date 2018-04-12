@@ -1,6 +1,6 @@
 /*
 -------------------------------------------------------------------------------
-    This file is part of SimpleJSONParser.
+    This file is part of SimpleJsonParser.
 
     Copyright (c) Charles Carley.
 

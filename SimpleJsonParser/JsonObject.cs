@@ -1,6 +1,6 @@
 /*
 -------------------------------------------------------------------------------
-    This file is part of SimpleJSONParser.
+    This file is part of SimpleJsonParser.
 
     Copyright (c) Charles Carley.
 
@@ -28,15 +28,14 @@ using System.Collections.Generic;
 
 namespace Json
 {
-    public class JObject : System.IDisposable
+    public class JObject : IDisposable
     {
-        // all key values
         Dictionary<string, object> m_dictionary;
-        List<object> m_array;
-        List<JObject> m_nodes;
+        List<object>        m_array;
+        List<JObject>       m_nodes;
+        bool                m_isArray;
 
         private static int m_depth;
-        bool m_isArray;
 
         public JObject()
         {
@@ -287,11 +286,12 @@ namespace Json
             result += m_isArray ? "]" : "}";
             return result;
         }
+        public void Dispose() { }
 
-        public override string ToString()               { return AsCompactPrint(); }
-        public void Dispose() {}
-        public Dictionary<string, object> Dictionary    { get => m_dictionary; }
-        public List<JObject> Nodes                      { get => m_nodes; }
-        public bool IsArray                             { get => m_isArray; set => m_isArray = value; }
+        public override string ToString() { m_depth = 0;  return AsCompactPrint(); }
+        public bool IsArray               { get => m_isArray; set => m_isArray = value; }
+
+        public Dictionary<string, object> Dictionary => m_dictionary;
+        public List<JObject> Nodes => m_nodes;
     }
 }
