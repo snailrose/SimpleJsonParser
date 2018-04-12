@@ -118,10 +118,8 @@ namespace Json
             object val = null;
             if (key != null && m_dictionary.ContainsKey(key))
                 val = m_dictionary[key];
-
             if (val == null)
                 return 0;
-
             if (val.GetType() == typeof(string))
             {
                 if (Int32.TryParse((string)val, out int dval))
