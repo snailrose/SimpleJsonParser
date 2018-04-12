@@ -5,6 +5,11 @@
     <Authors>snailrose</Authors>
     <Company>CCS LLC</Company>
     <Description>Simple lightweight JSON serializer</Description>
+    <Copyright>Charles Carley</Copyright>
+    <PackageLicenseUrl>https://opensource.org/licenses/MIT</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/snailrose/SimpleJsonParser</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/snailrose/SimpleJsonParser</RepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
 </Project>

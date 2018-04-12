@@ -196,7 +196,7 @@ namespace Json
         {
             string str = "";
             for (int i = 0; i < m_depth; ++i)
-                str += "\t";
+                str += " ";
             return str;
         }
 
