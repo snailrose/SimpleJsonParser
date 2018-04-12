@@ -10,6 +10,8 @@
     <PackageProjectUrl>https://github.com/snailrose/SimpleJsonParser</PackageProjectUrl>
     <RepositoryUrl>https://github.com/snailrose/SimpleJsonParser</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.1</Version>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
 </Project>
