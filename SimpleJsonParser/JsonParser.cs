@@ -108,7 +108,7 @@ namespace Json
                             m_stack.Push(new JObject());
                     }
                     else
-                        throw new SyntaxError("Expecting a Value, Object Or Array Assignemnt");
+                        throw new SyntaxError("Expecting a Value, Object Or Array Assignemnt.");
                 }
                 else if (c.Type == JTokenType.String    ||
                          c.Type == JTokenType.Numerical ||

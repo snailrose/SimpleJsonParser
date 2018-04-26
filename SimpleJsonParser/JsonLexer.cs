@@ -99,6 +99,7 @@ namespace Json
                         if( c == '\\' ) {
                             c = m_buffer[++m_cur];
                             if( c == '"'  ||
+                                c == '\\' ||
                                 c == '\n' ||
                                 c == '\r' ||
                                 c == '\b' ||

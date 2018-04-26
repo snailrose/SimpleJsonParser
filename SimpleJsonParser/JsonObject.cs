@@ -83,6 +83,8 @@ namespace Json
                 return (string)val;
             if (val.GetType() == typeof(int))
                 return ((int)val).ToString();
+            if (val.GetType() == typeof(long))
+                return ((long)val).ToString();
             if (val.GetType() == typeof(double))
                 return ((double)val).ToString();
 
@@ -107,6 +109,29 @@ namespace Json
                 return ((int)val);
             if (val.GetType() == typeof(double))
                 return ((double)val);
+
+            throw new NotImplementedException();
+        }
+
+        public long AsLong(string key)
+        {
+            object val = null;
+            if (key != null && m_dictionary.ContainsKey(key))
+                val = m_dictionary[key];
+            if (val == null)
+                return 0;
+            if (val.GetType() == typeof(string))
+            {
+                if (long.TryParse((string)val, out long dval))
+                    return dval;
+                return 0;
+            }
+            if (val.GetType() == typeof(long))
+                return ((long)val);
+            if (val.GetType() == typeof(int))
+                return ((long)val);
+            if (val.GetType() == typeof(double))
+                return (long)((double)val);
 
             throw new NotImplementedException();
         }
