@@ -57,6 +57,11 @@ namespace Json
                 if (c.Type == JTokenType.OpenBracket || c.Type == JTokenType.Comma) {
                     JToken str = lex.Lex();
 
+                    if (str.Type == JTokenType.CloseBracket)
+                    {
+                        c = str;
+                        continue;
+                    }
                     if (str == null || str.Type != JTokenType.String)
                         throw new SyntaxError("Expecting  a string identifier");
 
