@@ -30,165 +30,196 @@ namespace Json
 {
     public class JObject : IDisposable
     {
-        Dictionary<string, object> m_dictionary;
-        List<object>        m_array;
-        List<JObject>       m_nodes;
-        bool                m_isArray;
-
-        private static int m_depth;
+        private List<object>        m_array;
+        private static int          m_depth;
 
         public JObject()
         {
-            m_dictionary = new Dictionary<string, object>();
-            m_array = new List<object>();
-            m_nodes = new List<JObject>();
-            m_depth = 0;
-            m_isArray = false;
+            Dictionary  = new Dictionary<string, object>();
+            m_array     = new List<object>();
+            Nodes       = new List<JObject>();
+            m_depth     = 0;
+            IsArray     = false;
         }
 
-        public void AddObject(JObject obj)
+
+        public Dictionary<string, object>.KeyCollection Keys { get => Dictionary.Keys; }
+
+
+        public void AddObject( JObject obj )
         {
-            if (obj != null)
-                m_nodes.Add(obj);
-            if (m_isArray)
-                m_array.Add(obj);
+            if( obj != null )
+                Nodes.Add( obj );
+            if( IsArray )
+                m_array.Add( obj );
         }
 
-        public void AddValue(string key, object value)
+        public void SetValue( string key, object value )
         {
-            if (key != null && value != null) {
-                if (m_dictionary.ContainsKey(key))
-                    m_dictionary[key] = value;
+            if( key != null && value != null ) {
+                if( Dictionary.ContainsKey( key ) )
+                    Dictionary[key] = value;
+            }
+        }
+
+
+        public void AddValue( string key, object value )
+        {
+            if( key != null && value != null ) {
+                if( Dictionary.ContainsKey( key ) )
+                    Dictionary[key] = value;
                 else
-                    m_dictionary.Add(key, value);
+                    Dictionary.Add( key, value );
             }
         }
 
-        public void AddValue(object value)
+        public void AddValue( object value )
         {
-            if (value != null)
-                m_array.Add(value);
+            if( value != null )
+                m_array.Add( value );
         }
 
-        public bool HasKey(string key) { return (key != null && m_dictionary.ContainsKey(key)); }
+        public bool HasKey( string key ) 
+        { 
+            return ( key != null && Dictionary.ContainsKey( key ) ); 
+        }
 
-        public string AsString(string key)
+
+        
+        public string AsString( string key, string def )
         {
             object val = null;
-            if (key != null && m_dictionary.ContainsKey(key))
-                val = m_dictionary[key];
-            if (val == null)
-                return "null";
-            if (val.GetType() == typeof(string))
-                return (string)val;
-            if (val.GetType() == typeof(int))
-                return ((int)val).ToString();
-            if (val.GetType() == typeof(long))
-                return ((long)val).ToString();
-            if (val.GetType() == typeof(double))
-                return ((double)val).ToString();
+            if( key != null && Dictionary.ContainsKey( key ) )
+                val = Dictionary[key];
+            if( val == null )
+                return def;
+            if( val.GetType() == typeof( string ) )
+                return ( string )val;
+            if( val.GetType() == typeof( int ) )
+                return ( ( int )val ).ToString();
+            if( val.GetType() == typeof( long ) )
+                return ( ( long )val ).ToString();
+            if( val.GetType() == typeof( double ) )
+                return ( ( double )val ).ToString();
 
             throw new NotImplementedException();
         }
 
-
-        public double AsDouble(string key)
+        
+        public double AsDouble( string key, double def )
         {
             object val = null;
-            if (key != null && m_dictionary.ContainsKey(key))
-                val = m_dictionary[key];
-            if (val == null)
-                return 0;
-            if (val.GetType() == typeof(string))
-            {
-                if (Double.TryParse((string)val, out double dval))
+            if( key != null && Dictionary.ContainsKey( key ) )
+                val = Dictionary[key];
+            if( val == null )
+                return def;
+            if( val.GetType() == typeof( string ) ) {
+                if( Double.TryParse( ( string )val, out double dval ) )
                     return dval;
                 return 0;
             }
-            if (val.GetType() == typeof(int))
-                return ((int)val);
-            if (val.GetType() == typeof(double))
-                return ((double)val);
+            if( val.GetType() == typeof( int ) )
+                return ( ( int )val );
+            if( val.GetType() == typeof( double ) )
+                return ( ( double )val );
 
             throw new NotImplementedException();
         }
 
-        public long AsLong(string key)
+        public long AsLong( string key, long def  )
         {
             object val = null;
-            if (key != null && m_dictionary.ContainsKey(key))
-                val = m_dictionary[key];
-            if (val == null)
-                return 0;
-            if (val.GetType() == typeof(string))
-            {
-                if (long.TryParse((string)val, out long dval))
+            if( key != null && Dictionary.ContainsKey( key ) )
+                val = Dictionary[key];
+            if( val == null )
+                return def;
+            if( val.GetType() == typeof( string ) ) {
+                if( long.TryParse( ( string )val, out long dval ) )
                     return dval;
-                return 0;
+                return def;
             }
-            if (val.GetType() == typeof(long))
-                return ((long)val);
-            if (val.GetType() == typeof(int))
-                return ((long)val);
-            if (val.GetType() == typeof(double))
-                return (long)((double)val);
+            if( val.GetType() == typeof( long ) )
+                return ( ( long )val );
+            if( val.GetType() == typeof( int ) )
+                return ( ( long )val );
+            if( val.GetType() == typeof( double ) )
+                return ( long )( ( double )val );
 
             throw new NotImplementedException();
         }
 
 
-        public int AsInt(string key)
+        public int AsInt( string key, int def  )
         {
             object val = null;
-            if (key != null && m_dictionary.ContainsKey(key))
-                val = m_dictionary[key];
-            if (val == null)
-                return 0;
-            if (val.GetType() == typeof(string))
-            {
-                if (Int32.TryParse((string)val, out int dval))
+            if( key != null && Dictionary.ContainsKey( key ) )
+                val = Dictionary[key];
+            if( val == null )
+                return def;
+            if( val.GetType() == typeof( string ) ) {
+                if( Int32.TryParse( ( string )val, out int dval ) )
                     return dval;
-                return 0;
+                return def;
             }
-            if (val.GetType() == typeof(int))
-                return ((int)val);
-            if (val.GetType() == typeof(double))
-                return (int)((double)val);
+            if( val.GetType() == typeof( int ) )
+                return ( ( int )val );
+            if( val.GetType() == typeof( double ) )
+                return ( int )( ( double )val );
 
             throw new NotImplementedException();
         }
 
 
-        static public JObject FromBin(string bin)
+        public string AsString( string key )
         {
-            if (bin == null || bin.Length == 0)
+           return AsString(key, "null");
+        }
+
+        
+        public double AsDouble( string key )
+        {
+           return AsDouble(key, 0);
+        }
+
+        public long AsLong( string key )
+        {
+           return AsLong(key, 0);
+        }
+
+
+        public int AsInt( string key )
+        {
+           return AsInt(key, 0);
+        }
+
+
+        static public JObject FromBin( string bin )
+        {
+            if( bin == null || bin.Length == 0 )
                 return null;
 
-            string[] array = bin.Split(',');
+
+            string[] array = bin.Split( ',' );
             string res = "";
-            foreach (string str in array)
-            {
-                if (Int32.TryParse(str, out int iv) && iv < 256)
-                {
-                    char c = (char)iv;
+            foreach( string str in array ) {
+                if( Int32.TryParse( str, out int iv ) && iv < 256 ) {
+                    char c = ( char )iv;
                     res += c;
                 }
             }
-            return JObject.Parse(res);
+            return Parse( res );
         }
 
         public string ToBin()
         {
             string result = "";
             string val = ToString();
-            if (val.Length > 0)
-            {
+            if( val.Length > 0 ) {
                 int i = 0;
-                foreach (char c in val)
-                {
+                foreach( char c in val ) {
                     int ci = c;
                     result += ci.ToString();
-                    if (i + 1 < val.Length)
+                    if( i + 1 < val.Length )
                         result += ",";
                     ++i;
                 }
@@ -196,17 +227,16 @@ namespace Json
             return result;
         }
 
-
-        public static JObject Parse(string val)
+        public static JObject Parse( string val )
         {
             JParser pse = new JParser();
-            return pse.Parse(val);
+            return pse.Parse( val );
         }
 
-        public static JObject ParseBin(string val)
+        public static JObject ParseBin( string val )
         {
             JParser pse = new JParser();
-            return FromBin(val);
+            return FromBin( val );
         }
 
         private string WriteNewLine()
@@ -217,7 +247,7 @@ namespace Json
         private string WriteSpace()
         {
             string str = "";
-            for (int i = 0; i < m_depth; ++i)
+            for( int i = 0; i < m_depth; ++i )
                 str += " ";
             return str;
         }
@@ -226,51 +256,51 @@ namespace Json
         {
             string result = "";
             result += WriteSpace();
-            result += m_isArray ? "[" : "{";
+            result += IsArray ? "[" : "{";
             result += WriteNewLine();
             m_depth += 1;
             int count = 0;
-            if (IsArray) {
+            if( IsArray ) {
                 count = 0;
-                foreach (object obj in m_array) {
-                    if (obj.GetType() == typeof(string)) {
+                foreach( object obj in m_array ) {
+                    if( obj.GetType() == typeof( string ) ) {
                         result += WriteSpace();
                         result += "\"" + obj + "\"";
-                    } else if (obj.GetType() == typeof(bool)) {
+                    } else if( obj.GetType() == typeof( bool ) ) {
                         result += WriteSpace();
-                        result += (((bool)obj) ? "true" : "false");
+                        result += ( ( ( bool )obj ) ? "true" : "false" );
                     } else {
                         result += WriteSpace();
                         result += obj;
                     }
                     count++;
-                    if (count < m_array.Count)
+                    if( count < m_array.Count )
                         result += ",";
                     result += WriteNewLine();
                 }
             }
             count = 0;
-            foreach (string key in m_dictionary.Keys) {
-                object val = m_dictionary[key];
+            foreach( string key in Dictionary.Keys ) {
+                object val = Dictionary[key];
 
-                if (val.GetType() == typeof(string)) {
+                if( val.GetType() == typeof( string ) ) {
                     result += WriteSpace();
                     result += "\"" + key + "\": \"" + val + "\"";
-                } else if (val.GetType() == typeof(bool)) {
+                } else if( val.GetType() == typeof( bool ) ) {
                     result += WriteSpace();
-                    result += "\"" + key + "\": " + (((bool)val) ? "true" : "false");
+                    result += "\"" + key + "\": " + ( ( ( bool )val ) ? "true" : "false" );
                 } else {
                     result += WriteSpace();
                     result += "\"" + key + "\": " + val;
                 }
                 count++;
-                if (count < m_dictionary.Count)
+                if( count < Dictionary.Count )
                     result += ",";
                 result += WriteNewLine();
             }
             m_depth -= 1;
             result += WriteSpace();
-            result += m_isArray ? "]" : "}";
+            result += IsArray ? "]" : "}";
             result += WriteNewLine();
             return result;
         }
@@ -278,45 +308,54 @@ namespace Json
         public string AsCompactPrint()
         {
             string result = "";
-            result += m_isArray ? "[" : "{";
+            result += IsArray ? "[" : "{";
             m_depth += 1;
             int count = 0;
-            if (IsArray) {
+            if( IsArray ) {
                 count = 0;
-                foreach (object obj in m_array) {
-                    if (obj.GetType() == typeof(string))
+                foreach( object obj in m_array ) {
+                    if( obj.GetType() == typeof( string ) )
                         result += "\"" + obj + "\"";
-                    else if (obj.GetType() == typeof(bool))
-                        result += (((bool)obj) ? "true" : "false");
+                    else if( obj.GetType() == typeof( bool ) )
+                        result += ( ( ( bool )obj ) ? "true" : "false" );
                     else
                         result += obj;
                     count++;
-                    if (count < m_array.Count)
+                    if( count < m_array.Count )
                         result += ",";
                 }
             }
             count = 0;
-            foreach (string key in m_dictionary.Keys) {
-                object val = m_dictionary[key];
-                if (val.GetType() == typeof(string))
+            foreach( string key in Dictionary.Keys ) {
+                object val = Dictionary[key];
+                if( val.GetType() == typeof( string ) )
                     result += "\"" + key + "\":\"" + val + "\"";
-                else if (val.GetType() == typeof(bool))
-                    result += "\"" + key + "\":" + (((bool)val) ? "true" : "false");
+                else if( val.GetType() == typeof( bool ) )
+                    result += "\"" + key + "\":" + ( ( ( bool )val ) ? "true" : "false" );
                 else
                     result += "\"" + key + "\":" + val;
                 count++;
-                if (count < m_dictionary.Count)
+                if( count < Dictionary.Count )
                     result += ",";
             }
-            result += m_isArray ? "]" : "}";
+            result += IsArray ? "]" : "}";
             return result;
         }
-        public void Dispose() { }
 
-        public override string ToString() { m_depth = 0;  return AsCompactPrint(); }
-        public bool IsArray               { get => m_isArray; set => m_isArray = value; }
+        public void Dispose() 
+        {
+            Dictionary.Clear();
+            m_array.Clear();
+        }
 
-        public Dictionary<string, object> Dictionary => m_dictionary;
-        public List<JObject> Nodes => m_nodes;
+        public override string ToString() 
+        { 
+            m_depth = 0;  
+            return AsCompactPrint(); 
+        }
+
+        public bool IsArray                             { get; set; }
+        public Dictionary<string, object> Dictionary    { get; private set; }
+        public List<JObject> Nodes                      { get; private set; }
     }
 }

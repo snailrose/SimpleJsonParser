@@ -28,7 +28,8 @@ using System.Collections.Generic;
 
 namespace Json
 {
-    class SyntaxError  : Exception {
+    class SyntaxError  : Exception
+    {
         public SyntaxError(string message) : base(message) {}
     }
 
@@ -38,41 +39,36 @@ namespace Json
         Stack<JObject> m_stack;
         public JParser()
         {
-            m_root = new JObject();
-            m_cur = null;
-            m_stack = new Stack<JObject>();
+            m_root      = new JObject();
+            m_cur       = null;
+            m_stack     = new Stack<JObject>();
+
             m_stack.Push(m_root);
         }
 
         public JObject Parse(string buf)
         {
-            if (buf == null)
+            if (buf == null  || buf == "")
                 return m_root;
 
             JLex lex = new JLex(buf);
             JToken c = lex.Lex();
 
-            while (c != null && c.Type != JTokenType.EOF &&  (m_stack.Count > 0))
+            while (c != null && c.Type != JTokenType.EOF && (m_stack.Count > 0))
             {
-                if (c.Type == JTokenType.OpenBracket || c.Type == JTokenType.Comma) {
+                if (c.Type == JTokenType.OpenBracket || c.Type == JTokenType.Comma)
+                {
                     JToken str = lex.Lex();
 
-                    if (str.Type == JTokenType.CloseBracket)
-                    {
-                        c = str;
-                        continue;
-                    }
                     if (str == null || str.Type != JTokenType.String)
                         throw new SyntaxError("Expecting  a string identifier");
-
                     JToken colon = lex.Lex();
                     if (colon == null || colon.Type != JTokenType.Colon)
                     {
                         // error: definition not well formed
-                        // expecting a colon character after a string identifier 
+                        // expecting a colon character after a string identifier
                         throw new SyntaxError("Expecting a colon character after a string identifier");
                     }
-
                     JToken control = lex.Lex();
                     if (control == null)
                     {
@@ -81,9 +77,9 @@ namespace Json
                     }
 
                     if (control.Type == JTokenType.String       ||
-                        control.Type == JTokenType.Numerical    ||
-                        control.Type == JTokenType.Boolean      ||
-                        control.Type == JTokenType.Null)
+                            control.Type == JTokenType.Numerical    ||
+                            control.Type == JTokenType.Boolean      ||
+                            control.Type == JTokenType.Null)
                     {
                         // Value
                         m_cur = m_stack.Peek();
@@ -127,7 +123,6 @@ namespace Json
                         // only an array
                         m_cur.AddValue(c.Value);
                     }
-
                     c = lex.Lex();
                     if (c.Type == JTokenType.Comma)
                         c = lex.Lex();

@@ -43,15 +43,13 @@ namespace Json
 
     public class JToken
     {
-        JTokenType m_type;
-        object m_value;
-
-        public JToken(JTokenType type, object value)
+        public JToken( JTokenType type, object value )
         {
-            m_type = type;
-            m_value = value;
+            Type = type;
+            Value = value;
         }
-        public JTokenType Type => m_type;
-        public object Value    => m_value;
+        
+        public JTokenType   Type    { get; private set; }
+        public object       Value   { get; private set; }
     }
 }
