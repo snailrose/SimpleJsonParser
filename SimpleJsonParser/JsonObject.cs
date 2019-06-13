@@ -193,19 +193,26 @@ namespace Json
         }
 
 
+        private static int CharHex2Int(char c)
+        {
+            int ival = 0;
+            if (c >= 'A') ival = 10 + ((int)c) - 'A';
+            else if (c >= '0') ival = ((int)c) - '0';
+            return ival;
+        }
+
         static public JObject FromBin( string bin )
         {
             if( bin == null || bin.Length == 0 )
                 return null;
-
-
-            string[] array = bin.Split( ',' );
+            int i, len = bin.Length, dv,rv, iv;
             string res = "";
-            foreach( string str in array ) {
-                if( Int32.TryParse( str, out int iv ) && iv < 256 ) {
-                    char c = ( char )iv;
-                    res += c;
-                }
+            for (i=0; i<len; i+=2)
+            {
+                dv = CharHex2Int(bin[i]);
+                rv = CharHex2Int(bin[i+1]);
+                iv = 16 * dv + rv;
+                res += (char)iv;
             }
             return Parse( res );
         }
@@ -213,17 +220,9 @@ namespace Json
         public string ToBin()
         {
             string result = "";
-            string val = ToString();
-            if( val.Length > 0 ) {
-                int i = 0;
-                foreach( char c in val ) {
-                    int ci = c;
-                    result += ci.ToString();
-                    if( i + 1 < val.Length )
-                        result += ",";
-                    ++i;
-                }
-            }
+            byte[] bytes = System.Text.Encoding.ASCII.GetBytes(ToString());
+            foreach( byte c in bytes)
+                result += c.ToString("X2");
             return result;
         }
 

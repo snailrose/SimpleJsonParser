@@ -38,6 +38,11 @@ namespace ConsoleApp1
             jobj.AddValue("Name", "ABC");
 
 
+            var obj2 = new Json.JObject();
+            obj2.AddValue("ID", 123);
+            obj2.AddValue("Name", "ABC");
+            jobj.AddValue("Nested", obj2);
+            
             Console.WriteLine("--------------------------------");
             Console.WriteLine("Writing ");
             Console.WriteLine("");
@@ -54,7 +59,7 @@ namespace ConsoleApp1
             Console.WriteLine(val);
 
             Console.WriteLine("--------------------------------");
-            Console.WriteLine("As Byte Array ");
+            Console.WriteLine("As Hex String");
             Console.WriteLine("");
 
             val = jobj.ToBin();
@@ -62,7 +67,7 @@ namespace ConsoleApp1
 
 
             Console.WriteLine("--------------------------------");
-            Console.WriteLine("From Byte Array ");
+            Console.WriteLine("From Hex String");
             Console.WriteLine("");
             jobj = Json.JObject.ParseBin(val);
 
