@@ -109,7 +109,7 @@ namespace Json
                 }
                 else if (c == '"')
                 {
-                    // some string decl
+                    // some string declaration
                     // [.] except ["|\] not including [\n\r\b\r\f\t]
                     c = m_buffer[++m_cur];
                     string val = "";
@@ -174,7 +174,7 @@ namespace Json
                         c = m_buffer[m_cur];
                     }
                     if (val != "true" && val != "false" &&  val != "null")
-                        return new JToken(JTokenType.SyntaxError, "expecting, true, falseor null");
+                        return new JToken(JTokenType.SyntaxError, "expecting, true, false or null");
 
                     if (val == "null")
                         return new JToken(JTokenType.Null, null);

@@ -205,8 +205,10 @@ namespace Json
         {
             if( bin == null || bin.Length == 0 )
                 return null;
+
             int i, len = bin.Length, dv,rv, iv;
             string res = "";
+            
             for (i=0; i<len; i+=2)
             {
                 dv = CharHex2Int(bin[i]);
